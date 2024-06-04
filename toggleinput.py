@@ -1,4 +1,7 @@
 import subprocess
+import os
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
 
 enable = 'xinput enable 8'
 disable = 'xinput disable 8'
@@ -21,6 +24,7 @@ print('input active? ', input_active)
 
 if (input_active):
         subprocess.call(disable, shell=True)
+        subprocess.call('python ' + dir_path + "/lockoverlay.py")
 else:
         subprocess.call(enable, shell=True)
 exit()
