@@ -11,8 +11,10 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 enable = 'xinput enable 8'
 disable = 'xinput disable 8'
 
+time_to_shutdown = 5
+time_countdown_began = 0
 
-class Window(QWidget):
+class LockIcon(QWidget):
     def __init__(self):
         super().__init__(parent = None)
         self.setGeometry(100, 100, 400, 280)
@@ -32,18 +34,39 @@ class Window(QWidget):
         print('Lock icon is displayed')
     
     def keyPressEvent(self, event):
-        super(Window, self).keyPressEvent(event)
+        super(LockIcon, self).keyPressEvent(event)
         print('Enabling input')
         subprocess.call(enable, shell=True)
         exit()
         
+class ShutDownWarning(QMainWindow):
+    def __init__(self):
+    
+        time_to_shutdown = 5
+        time_countdown_began = 0
+        super().__init__(parent = None)
+        self.setGeometry(100, 400, 400, 280)
+        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.setWindowFlag(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
+        warning = QLabel("Shutdown in " + str(time_to_shutdown) + "...")
+        self.setCentralWidget(warning)
+        time_countdown_began = time.monotonic()
+    
+    def keyPressEvent(self, event):
+        super(ShutDownWarning, self).keyPressEvent(event)
+        print('Key is still down')
+        if time.monotonic() - time_countdown_began > 1:
+            print("hi")
+        if time_to_shutdown <= 0:
+            exit()
+        
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     
-    window = Window()
-    window.show()
+    lock = ShutDownWarning()
+    lock.show()
     
     print ('Disabling input')
-    subprocess.call(disable, shell=True)
+    #subprocess.call(disable, shell=True)
     
     sys.exit(app.exec())
