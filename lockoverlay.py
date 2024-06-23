@@ -67,6 +67,6 @@ if __name__ == "__main__":
     lock.show()
     
     print ('Disabling input')
-    #subprocess.call(disable, shell=True)
+    subprocess.call(disable, shell=True)
     
     sys.exit(app.exec())
