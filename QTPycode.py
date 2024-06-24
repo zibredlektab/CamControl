@@ -149,7 +149,6 @@ while True:
             button_is_pushed = False
             button_is_held = False
             time_released = time.monotonic()
-            pixel.fill((255,0,0))
             
             
     # Power monitoring
@@ -173,6 +172,6 @@ while True:
         elif vbatt > 3.5:
             pixel.fill((255, 128, 0)) # orange
         else:
-            pixel.fill((255, 0, 0)) # red
+            pixel.fill((255, 0, 100)) # pink
 
     time.sleep(0.01)
