@@ -100,6 +100,16 @@ while True:
                         keyboard.press(Keycode.F1)
                         keyboard.release_all()
                     # do long-press things
+                    
+                    pixel.fill((0,0,0))
+                    time.sleep(.1)
+                    pixel.fill((0,0,255)) # blue
+                    time.sleep(.1)
+                    pixel.fill((0,0,0))
+                    time.sleep(.1)
+                    pixel.fill((0,0,255)) # blue
+                    time.sleep(.1)
+                    
         else : # button was not previously being pushed
             if time_released + debounce < time.monotonic(): # only register new press once debounce has been surpassed
                 print("button was pushed...")
@@ -112,11 +122,11 @@ while True:
                 print("...and released (long press)")
                 pixel.fill((0,0,0))
                 time.sleep(.1)
-                pixel.fill((0,0,255)) # blue
+                pixel.fill((255,0,0)) # red
                 time.sleep(.1)
                 pixel.fill((0,0,0))
                 time.sleep(.1)
-                pixel.fill((0,0,255)) # blue
+                pixel.fill((255,0,0)) # red
                 time.sleep(.1)
                 power_on.value = False # turn off power
             else:
