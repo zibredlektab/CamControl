@@ -32,6 +32,8 @@ button = digitalio.DigitalInOut(button_pin)
 button.direction = digitalio.Direction.INPUT
 button.pull = digitalio.Pull.UP
 
+locked = False
+
 keyboard_started = False
 time_to_start_keyboard = 15 # wait to start up keyboard
 
@@ -121,10 +123,15 @@ while True:
                 print("...and released (short press)")
                 # do shot-press things
                 if keyboard_started == True:
-                    keyboard.press(Keycode.CONTROL)
-                    keyboard.press(Keycode.ALT)
-                    keyboard.press(Keycode.ESCAPE)
-                    keyboard.release_all()
+                    if locked == False:
+                        keyboard.press(Keycode.CONTROL)
+                        keyboard.press(Keycode.ALT)
+                        keyboard.press(Keycode.ESCAPE)
+                        keyboard.release_all()
+                        locked = True
+                    else:
+                        keyboard.press(Keycode.CONTROL)
+                        locked = False
                 pixel.fill((0,0,0))
                 time.sleep(.1)
                 pixel.fill((0,255,0)) # green
