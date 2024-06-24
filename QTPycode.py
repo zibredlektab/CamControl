@@ -162,6 +162,8 @@ while True:
         vdc = temp_vdc / sample_count
         vbatt = temp_vdc / sample_count
         sample_count = 0
+        temp_vdc = 0
+        temp_vbatt = 0
         print("VDC: ", vdc, "v, VBATT: ", vbatt, "v ")
         
 
