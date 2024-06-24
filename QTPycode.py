@@ -162,6 +162,7 @@ while True:
         vdc = temp_vdc / sample_count
         vbatt = temp_vdc / sample_count
         sample_count = 0
+        print("VDC: ", vdc, "v, VBATT: ", vbatt, "v ")
         
 
     if vdc > 1.0: # Running on DC power, not battery
