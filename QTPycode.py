@@ -159,8 +159,8 @@ while True:
         temp_vbatt += tla.voltage
         sample_count += 1
     else:
-        vdc = temp_vdc / sample_count
-        vbatt = temp_vdc / sample_count
+        vdc = temp_vdc / (sample_count - 1)
+        vbatt = temp_vdc / (sample_count - 1)
         sample_count = 0
         temp_vdc = 0
         temp_vbatt = 0
