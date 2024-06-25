@@ -168,7 +168,7 @@ while True:
         print("Averaging... VDC: ", vdc, "v, VBATT: ", vbatt, "v ")
         
 
-    if vdc > 1.0: # Running on DC power, not battery
+    if vdc > vbatt: # Running on DC power, not battery
         pixel.fill((0, 255, 0)) # green
     else: # Running on battery
         if vbatt > 4:
