@@ -152,19 +152,20 @@ while True:
             
             
     # Power monitoring
-    if sample_count < total_samples: # Smooth out samples
+    if sample_count < total_samples: # Smooth out sampling
         tla.input_channel = 2
         temp_vdc += tla.voltage
         tla.input_channel = 0
         temp_vbatt += tla.voltage
         sample_count += 1
+        print("Temp VDC: ", vdc, "v, Temp VBATT: ", vbatt, "v ")
     else:
-        vdc = temp_vdc / (sample_count - 1)
-        vbatt = temp_vdc / (sample_count - 1)
+        vdc = temp_vdc / sample_count
+        vbatt = temp_vdc / sample_count
         sample_count = 0
         temp_vdc = 0
         temp_vbatt = 0
-        print("VDC: ", vdc, "v, VBATT: ", vbatt, "v ")
+        print("Averaging... VDC: ", vdc, "v, VBATT: ", vbatt, "v ")
         
 
     if vdc > 1.0: # Running on DC power, not battery
@@ -175,6 +176,6 @@ while True:
         elif vbatt > 3.5:
             pixel.fill((255, 128, 0)) # orange
         else:
-            pixel.fill((255, 0, 100)) # pink
+            pixel.fill((255, 0, 0)) # red
 
-    time.sleep(0.01)
+    time.sleep(0.1)
