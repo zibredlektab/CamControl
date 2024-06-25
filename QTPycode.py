@@ -94,20 +94,15 @@ while True:
                 if not button_is_held:
                     print("...and held...")
                     button_is_held = True
-                    if keyboard_started == True:
-                        keyboard.press(Keycode.CONTROL)
-                        keyboard.press(Keycode.ALT)
-                        keyboard.press(Keycode.F1)
-                        keyboard.release_all()
                     # do long-press things
                     
                     pixel.fill((0,0,0))
                     time.sleep(.1)
-                    pixel.fill((0,0,255)) # blue
+                    pixel.fill((255,0,0)) # red
                     time.sleep(.1)
                     pixel.fill((0,0,0))
                     time.sleep(.1)
-                    pixel.fill((0,0,255)) # blue
+                    pixel.fill((255,0,0)) # red
                     time.sleep(.1)
                     
         else : # button was not previously being pushed
@@ -119,7 +114,13 @@ while True:
     else: # button is not currently being pushed
         if button_is_pushed: # button was previously being pushed, so it has been released
             if time_push_began + hold_delay < time.monotonic(): # hold delay has not been surpassed
-                print("...and released (long press)")
+                print("...and released (long press)")                
+                if keyboard_started == True:
+                    keyboard.press(Keycode.CONTROL)
+                    keyboard.press(Keycode.ALT)
+                    keyboard.press(Keycode.F1)
+                    keyboard.release_all()
+                    time.sleep(10)
                 pixel.fill((0,0,0))
                 time.sleep(.1)
                 pixel.fill((255,0,0)) # red
@@ -152,21 +153,26 @@ while True:
             
             
     # Power monitoring
-    if sample_count < total_samples: # Smooth out sampling
-        tla.input_channel = 2
-        temp_vdc += tla.voltage
-        tla.input_channel = 0
-        temp_vbatt += tla.voltage
-        sample_count += 1
-        print("Temp VDC: ", vdc, "v, Temp VBATT: ", vbatt, "v ")
-    else:
-        vdc = temp_vdc / sample_count
-        vbatt = temp_vdc / sample_count
-        sample_count = 0
-        temp_vdc = 0
-        temp_vbatt = 0
-        print("Averaging... VDC: ", vdc, "v, VBATT: ", vbatt, "v ")
+#     if sample_count < total_samples: # Smooth out sampling
+#         tla.input_channel = 2
+#         temp_vdc += tla.voltage
+#         tla.input_channel = 0
+#         temp_vbatt += tla.voltage
+#         sample_count += 1
+#         print("Temp VDC: ", vdc, "v, Temp VBATT: ", vbatt, "v ")
+#     else:
+#         vdc = temp_vdc / sample_count
+#         vbatt = temp_vdc / sample_count
+#         sample_count = 0
+#         temp_vdc = 0
+#         temp_vbatt = 0
+#         print("Averaging... VDC: ", vdc, "v, VBATT: ", vbatt, "v ")
         
+    tla.input_channel = 2
+    vdc = tla.voltage
+    tla.input_channel = 0
+    vbatt = tla.voltage
+    print("VDC: ", vdc, "v, VBATT: ", vbatt, "v ")
 
     if vdc > vbatt: # Running on DC power, not battery
         pixel.fill((0, 255, 0)) # green
